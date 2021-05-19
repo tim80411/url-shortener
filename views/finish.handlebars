@@ -1,3 +1,5 @@
+{{js '/js/copy.js'}}
+
 <div class="container text-center">
   <h1 class="mt-5">URL Shortener</h1>
   <div class="row justify-content-center mt-5">
@@ -8,8 +10,17 @@
   <div class="row justify-content-center mt-5">
     <h1 class="col-8">成功!請用以下連結</h1>
     <h2 class="col-8">
-      <a target="_blank" href="{{ shortenUrl }}">{{ shortenUrl }}</a>
+      <a class="copy-content" target="_blank" href="{{ shortenUrl }}">{{ shortenUrl }}</a>
     </h2>
+  </div>
+
+  <div class="row justify-content-center mt-3">
+    <div class="col-8">
+      <div class="row justify-content-center">
+        <button class="col-auto btn btn-outline-primary btn-lg copy-button mx-4" type="button">複製</button>
+        <a class="col-auto btn btn-outline-info btn-lg" href="/">製作新縮址</a>
+      </div>
+    </div>
   </div>
 
 
