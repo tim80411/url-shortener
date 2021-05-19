@@ -5,7 +5,8 @@ const helpers = require('./config/helpers')
 const bodyParser = require('body-parser')
 const myFunctions = require('./config/myFunctions')
 
-const DOMAIN = 'http://localhost:3000'
+const DOMAIN = process.env.DOMAIN || 'http://localhost:3000'
+const PORT = process.env.PORT || 3000
 
 const app = express()
 
@@ -59,7 +60,7 @@ app.get('/:url', (req, res) => {
     })
 })
 
-app.listen(3000, () => {
-  console.log('this app is running on http://localhost:3000')
+app.listen(PORT, () => {
+  console.log(`this app is running on ${DOMAIN}`)
 })
 
