@@ -48,6 +48,11 @@ app.post('/', (req, res) => {
     .catch(err => {
       console.log(err)
     })
+          .catch(err => {
+            console.log(err)
+            const errmsg = err.errors.redirectUrl.properties.message
+            res.render('index', { errmsg })
+          })
 })
 
 app.get('/:url', (req, res) => {

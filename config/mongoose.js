@@ -3,7 +3,8 @@ const MONGODB_URL = process.env.MONGODB_URL || 'mongodb://localhost/url-shortene
 
 mongoose.connect(MONGODB_URL, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useCreateIndex: true
 })
 
 const db = mongoose.connection

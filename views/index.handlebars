@@ -9,9 +9,15 @@
   <form class="row justify-content-center needs-validation mt-5" action="/" method="POST" novalidate>
     <div class="col-8">
       <input class="form-control" type="url" name="url" id="url" placeholder="input URL here" required>
+      {{#if errmsg}}
+      <small class="text-left" style="display:block; color: red;">
+        {{ errmsg }}
+      </small>
+      {{else}}
       <div class="invalid-feedback text-left">
         請輸入符合http格式的網址
       </div>
+      {{/if}}
     </div>
     <button class="col-5 btn btn-outline-primary mt-3" type="submit">Shorten</button>
   </form>
