@@ -6,7 +6,7 @@ const library = {
     const upperLetters = lowerLetters.toUpperCase()
     const nums = '0123456789'
 
-    const randomPool = random.concat(...lowerLetters, ...upperLetters, ...nums)
+    const randomPool = lowerLetters + upperLetters + nums
 
 
     for (i = 0; i < length; i++) {
