@@ -19,40 +19,50 @@ app.engine('handlebars', exphbs({
 app.set('view engine', 'handlebars')
 
 app.use(express.static('public'))
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res) => {
 
   res.render('index')
 })
 
-app.post('/', (req, res) => {
+app.post('/', async (req, res) => {
   const redirectUrl = req.body.url
+  const isExist = await Url.exists({ redirectUrl })
 
-  let shortenUrl = myFunctions.generateRandom()
-  return Url.find()
-    .lean()
-    .then(urls => {
-      while (urls.some(url => url.shortenUrl === shortenUrl)) {
-        shortenUrl = myFunctions.generateRandom()
-      }
-      return Url.create({ redirectUrl, shortenUrl })
-        .then(() => {
-          shortenUrl = `${DOMAIN}/${shortenUrl}`
-          res.render('finish', { shortenUrl })
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    })
-    .catch(err => {
-      console.log(err)
-    })
+
+  let shortenUrl = ''
+
+  if (isExist) {
+    return Url.findOne({ redirectUrl })
+      .lean()
+      .then(urlFound => {
+        shortenUrl = `${DOMAIN}/${urlFound.shortenUrl}`
+        res.render('finish', { shortenUrl })
+      })
+  } else {
+    shortenUrl = myFunctions.generateRandom()
+    return Url.find()
+      .lean()
+      .then(urls => {
+        while (urls.some(url => url.shortenUrl === shortenUrl)) {
+          shortenUrl = myFunctions.generateRandom()
+        }
+        return Url.create({ redirectUrl, shortenUrl })
+          .then(() => {
+            shortenUrl = `${DOMAIN}/${shortenUrl}`
+            res.render('finish', { shortenUrl })
+          })
           .catch(err => {
             console.log(err)
             const errmsg = err.errors.redirectUrl.properties.message
             res.render('index', { errmsg })
           })
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 })
 
 app.get('/:url', (req, res) => {
